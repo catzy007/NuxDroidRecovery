@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="phone.svg">
+   sodipodi:docname="phone.svg"
+   inkscape:export-filename="/home/yukinessa/BAGON/NuxDroidRecovery/img/phone.svg.png"
+   inkscape:export-xdpi="240"
+   inkscape:export-ydpi="240">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,16 +28,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="877.1621"
-     inkscape:cy="329.60527"
+     inkscape:zoom="0.35"
+     inkscape:cx="-10.086981"
+     inkscape:cy="430.34384"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
+     inkscape:window-width="1366"
+     inkscape:window-height="703"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -44,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,7 +61,7 @@
        height="250"
        x="0"
        y="47"
-       style="stroke-width:0.26458332"
+       style="stroke-width:0.26458332;fill:#333333"
        rx="10" />
     <rect
        id="rect3721"
@@ -66,9 +69,9 @@
        height="210"
        x="5"
        y="72"
-       style="fill:#ff00ff;stroke-width:0.27111721" />
+       style="fill:#ffffff;stroke-width:0.27111721" />
     <rect
-       style="fill:#ff00ff;stroke-width:0.20190294"
+       style="fill:#ffffff;stroke-width:0.20190294"
        id="rect3723"
        width="50"
        height="5"
@@ -76,7 +79,7 @@
        y="62"
        rx="1" />
     <circle
-       style="fill:#ff00ff;stroke-width:0.21619566"
+       style="fill:#ffffff;stroke-width:0.21619566"
        id="path3728"
        cx="34"
        cy="58"
