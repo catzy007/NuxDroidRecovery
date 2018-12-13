@@ -29,7 +29,7 @@
                 <property name="margin_right">10</property>
                 <property name="margin_top">20</property>
                 <property name="margin_bottom">20</property>
-                <property name="pixbuf">../../img/resize/phone1.svg.png</property>
+                <property name="pixbuf">../assets/drk01.png</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -43,7 +43,7 @@
                 <property name="can_focus">False</property>
                 <property name="margin_left">10</property>
                 <property name="margin_right">10</property>
-                <property name="pixbuf">../../img/resize/disk2.png</property>
+                <property name="pixbuf">../assets/lig02.png</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -57,7 +57,7 @@
                 <property name="can_focus">False</property>
                 <property name="margin_left">10</property>
                 <property name="margin_right">20</property>
-                <property name="pixbuf">../../img/resize/magnifier2.svg.png</property>
+                <property name="pixbuf">../assets/lig03.png</property>
               </object>
               <packing>
                 <property name="expand">False</property>
