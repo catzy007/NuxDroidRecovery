@@ -10,7 +10,8 @@ int main(){
 	char strcmd[255];
 	char search[]="xterm -e echo Receiving Data";
 	char lensrc=sizeof(search)/sizeof(char);
-	sleep(5);
+	sleep(2);
+	printf("Copying Partition, Please Wait\n");
 	while(1){
 		fp1 = popen("ps -at | grep \"xterm -e echo\" | cut -d \":\" -f2-", "r");
 		if(fp1==NULL){

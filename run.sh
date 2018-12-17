@@ -17,7 +17,11 @@ then
 fi
 if [ $(dpkg-query -W -f='${Status}' build-essential 2>/dev/null | grep -c "ok installed") -eq 0 ]
 then
-	sudo apt update && sudo apt build-essential xterm -y
+	sudo apt update && sudo apt install build-essential -y
+fi
+if [ $(dpkg-query -W -f='${Status}' fdisk 2>/dev/null | grep -c "ok installed") -eq 0 ]
+then
+	sudo apt update && sudo apt install fdisk -y
 fi
 gcc AndroReco.c -o AndroReco
 gcc nckiller.c -o nckiller
