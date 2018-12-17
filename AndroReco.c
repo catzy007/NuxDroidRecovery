@@ -161,12 +161,7 @@ int SelectPartition(char **partition){
 }
 
 void CopyPartitions(char *partition){
-	char dict[]="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	char command[255];
-	int i=0,j=0;
-	char *cleanpart;
-	int lencleanpart=0;
-	
+	char command[255];	
 	printf("copying the partitions %s\n", partition);
 	
 	//adb forward tcp:8888 tcp:8888 & xterm -e 'echo Sending Data ; adb shell "su -c dd if=/dev/block/loop0 | busybox nc -l -p 8888"' & xterm -e 'echo Receiving Data ; nc 127.0.0.1 8888 > loop0.img'
