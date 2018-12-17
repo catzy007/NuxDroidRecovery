@@ -74,7 +74,7 @@ int IsRooted(){
 }
 
 int SelectPartition(char **partition){
-	system("rm *.img")
+	system("rm *.img >/dev/null");
 	FILE *buffer1;
 	unsigned long int *partsize;
 	int idxlarge;
@@ -186,14 +186,8 @@ void CopyPartitions(char *partition){
 	system(command);
 	system("adb forward --remove-all");
 }
-
-void recover(){
-	printf("This Might Take a While. . .\n");
-	system("foremost -i *.img -o ./recovered-$(date +'%Y.%m.%d-%H.%M.%S')");
-}
-
 int recoverX(){
-	system("rm recovery.dd")
+	system("rm recovery.dd >/dev/null");
 	FILE *buffer1;
 	FILE *buffer2;
 	int i=0,countline=0,startline=0,idxlargest=0;
@@ -301,13 +295,32 @@ int main(){
 				break;
 		//select partitions
 			case 2:
-				system("adb shell \"cat /proc/partitions\"");
+				if(IsPaired()){
+					//if device has been plugged in and root
+					if(IsRooted()){
+						system("adb shell \"cat /proc/partitions\"");
+					}else{
+						printf("Please Root Your Device!\n");
+					}
+				//if device wasn't plugged in
+				}else{
+					printf("Remove Sdcard, Plug The Device, Enable ADB and Try Again\n");
+				}
 				break;
 		//copy partitions
 			case 3:
-				SelectPartition(&partition);
-				//printf("Largest Partition Is : %s\n", partition);
-				CopyPartitions(partition);
+				if(IsPaired()){
+					//if device has been plugged in and root
+					if(IsRooted()){
+						SelectPartition(&partition);
+						CopyPartitions(partition);
+					}else{
+						printf("Please Root Your Device!\n");
+					}
+				//if device wasn't plugged in
+				}else{
+					printf("Remove Sdcard, Plug The Device, Enable ADB and Try Again\n");
+				}
 				break;
 		//recover data from partitions
 			case 4:
