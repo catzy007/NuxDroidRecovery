@@ -43,7 +43,7 @@ int IsRooted(){
 	int signal;
 	int loop;
 	int i;
-//plugged device status checker
+//root device status checker
 	//adb shell "su -c ls /data/app" //debug_line_can_be_removed
 	buffer = popen("adb shell \"su -c ls /data/app\"", "r");
 	if(buffer==NULL){
@@ -132,7 +132,7 @@ int SelectPartition(char **partition){
 		while(fgets(text,sizeof(text),buffer1)!=NULL){
 			if(loop1>2){
 				if(loop2==idxlarge){
-				//some f*ckin filter to filter some sh*t
+				//some filter
 					i=0;partlen=0;
 					while(text[i]!='\0'){
 						for(j=0;j<sizeof(dict)/sizeof(char);j++){
