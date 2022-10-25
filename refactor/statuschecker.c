@@ -14,16 +14,6 @@ int isDevicePaired(){
 	}
 
 	while(fgets(text, sizeof(text), buffer) != NULL){
-        // // printf("%s\n", text);
-        // token = strtok(text, " ");
-        // while( token != NULL ) {
-        //     // printf("%s\n", token);
-        //     if(strstr(token, checkstring1) != NULL){
-        //         printf("Found : %s\n", token);
-        //         status = 0;
-        //     }
-        //     token = strtok(NULL, " ");
-        // }
         token = strtok(text, "\t");
         while(token != NULL) {
             // printf("%s\n", token);
