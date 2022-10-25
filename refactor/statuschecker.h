@@ -5,5 +5,6 @@
 #include <string.h>
 
 int isDevicePaired();
+int IsDeviceRooted();
 
 #endif
