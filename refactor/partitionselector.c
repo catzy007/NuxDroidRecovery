@@ -22,7 +22,8 @@ char *partitionSelector(){
     while(fgets(text, sizeof(text), buffer1) != NULL){
         if(lineNum >= lineSkip){
             token = strtok(text, " ");
-            for(int i=0; i<4; i++){
+            int i=0;
+            while(token != NULL || i<4){
                 //partition blocks 
                 if(i == 2){
                     printf("%s\n", token);
@@ -32,11 +33,8 @@ char *partitionSelector(){
                     printf("%s\n", token);
                 }
                 token = strtok(NULL, " ");
+                i++;
             }
-            // while(token != NULL){
-            //     printf("%s\n", token);
-            //     token = strtok(NULL, " ");
-            // }
         }
         lineNum++;
     }
