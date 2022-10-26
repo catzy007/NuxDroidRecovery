@@ -1,4 +1,5 @@
 *.img
+*.o
 info.cfg
 AndroReco
 nckiller
