@@ -14,7 +14,7 @@ int partitionCopy(char *targetPartition){
     //the output to netcat 8888
     strcat(command, "xterm -e 'echo Sending Data && sleep 5 && ");
     strcat(command, "adb shell \"su -c dd if=/dev/block/");
-    strncat(command, targetPartition, strlen(targetPartition) - 1);
+    strcat(command, targetPartition);
     strcat(command, " | busybox nc -l -p 8888\"' && ");
 
     //close android forward and kill netcat
