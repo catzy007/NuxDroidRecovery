@@ -6,21 +6,22 @@ char *partitionSelector(){
     char *token;
     char text[255];
     int lineNum = 0, lineSkip = 2;
-    
+
     unsigned long int partitionBlocks = 0;
     unsigned long int tempPartitionBlocks = 0;
     char *partitionName = malloc(sizeof(char) * 16+1);
     strcpy(partitionName, "NULL\0");
 
-    // if(!isDevicePaired()){
-    //     printf("The device is not paired!");
-    //     return partitionName;
-    // }
+    if(!isDevicePaired()){
+        printf("The device is not paired!");
+        return partitionName;
+    }
 
     // system("rm *.img >/dev/null");
 
     //adb shell 'cat /proc/partitions' | awk '{print $4}' 
-    buffer = popen("sh -c 'cat /proc/partitions'", "r");
+    // buffer = popen("sh -c 'cat /proc/partitions'", "r");
+    buffer = popen("adb shell 'cat /proc/partitions'", "r");
     if(buffer == NULL){
         return partitionName;
     }

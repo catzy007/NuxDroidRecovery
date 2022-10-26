@@ -3,15 +3,21 @@
 #include "string.h"
 #include "statuschecker.h"
 #include "partitionselector.h"
+#include "partitioncopy.h"
 
 int main(int argc, char** argv){
-    // printf("hello world!\n");
+
     printf("%s\n", isDevicePaired()?"Connected":"Disconnected!");
+    
     printf("%s\n", IsDeviceRooted()?"Root OK":"No root!");
 
     char *value = partitionSelector();
     printf("largest partition is %s\n", value);
-    free(value);
+    
+    if(strcmp(value, "NULL") != 0){
+        partitionCopy(value);
+    }
 
+    free(value);
     return 0;
 }
