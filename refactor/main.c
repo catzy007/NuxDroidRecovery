@@ -10,7 +10,7 @@ int main(int argc, char** argv){
     printf("%s\n", IsDeviceRooted()?"Root OK":"No root!");
 
     char *value = partitionSelector();
-    printf("%s\n", value);
+    printf("largest partition is %s\n", value);
     free(value);
 
     return 0;

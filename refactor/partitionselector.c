@@ -1,36 +1,45 @@
 #include "partitionselector.h"
 
 char *partitionSelector(){
-    FILE *buffer1;
-    int lineNum = 0, lineSkip = 2;
+    FILE *buffer;
+    char *ptr;
     char *token;
     char text[255];
+    int lineNum = 0, lineSkip = 2;
+    
+    unsigned long int partitionBlocks = 0;
+    unsigned long int tempPartitionBlocks = 0;
+    char *partitionName = malloc(sizeof(char) * 16+1);
+    strcpy(partitionName, "NULL\0");
 
     // if(!isDevicePaired()){
     //     printf("The device is not paired!");
-    //     return 0;
+    //     return partitionName;
     // }
 
     // system("rm *.img >/dev/null");
 
     //adb shell 'cat /proc/partitions' | awk '{print $4}' 
-    buffer1 = popen("sh -c 'cat /proc/partitions'", "r");
-    if(buffer1 == NULL){
-        return "Error!";
+    buffer = popen("sh -c 'cat /proc/partitions'", "r");
+    if(buffer == NULL){
+        return partitionName;
     }
 
-    while(fgets(text, sizeof(text), buffer1) != NULL){
+    while(fgets(text, sizeof(text), buffer) != NULL){
         if(lineNum >= lineSkip){
             token = strtok(text, " ");
             int i=0;
-            while(token != NULL || i<4){
-                //partition blocks 
+            while(token != NULL || i<3){
                 if(i == 2){
-                    printf("%s\n", token);
-                }
-                //partition name
-                if(i == 3){
-                    printf("%s\n", token);
+                    //partition blocks 
+                    tempPartitionBlocks = strtoul(token, &ptr, 10);
+                    if(tempPartitionBlocks > partitionBlocks){
+                        partitionBlocks = tempPartitionBlocks;
+                        //partition name
+                        token = strtok(NULL, " ");
+                        strcpy(partitionName, token);
+                        // printf("%ld - %s\n", partitionBlocks, token);
+                    }
                 }
                 token = strtok(NULL, " ");
                 i++;
@@ -38,9 +47,7 @@ char *partitionSelector(){
         }
         lineNum++;
     }
-    pclose(buffer1);
+    pclose(buffer);
 
-    char *str = malloc(sizeof(char) * 6+1);
-    strcpy(str, "hello\0");
-    return str;
+    return partitionName;
 }
