@@ -18,6 +18,8 @@ int main(int argc, char** argv){
         partitionCopy(value);
     }
 
+    partitionExtractor();
+
     free(value);
     return 0;
 }
