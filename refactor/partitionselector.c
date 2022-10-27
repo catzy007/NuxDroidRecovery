@@ -10,7 +10,7 @@ char *partitionSelector(){
     unsigned long int partitionBlocks = 0;
     unsigned long int tempPartitionBlocks = 0;
     char *partitionName = malloc(sizeof(char) * 16+1);
-    strcpy(partitionName, "NULL\0");
+    strcpy(partitionName, "NULL");
 
     if(!isDevicePaired()){
         printf("The device is not paired!");
@@ -20,8 +20,8 @@ char *partitionSelector(){
     // system("rm *.img >/dev/null");
 
     //adb shell 'cat /proc/partitions' | awk '{print $4}' 
-    buffer = popen("sh -c 'cat /proc/partitions'", "r");
-    // buffer = popen("adb shell 'cat /proc/partitions'", "r");
+    // buffer = popen("sh -c 'cat /proc/partitions'", "r");
+    buffer = popen("adb shell 'cat /proc/partitions'", "r");
     if(buffer == NULL){
         return partitionName;
     }
@@ -51,7 +51,7 @@ char *partitionSelector(){
     pclose(buffer);
 
     //clean the partition name from newline character
-    for(int j=0; j<(16+1); j++){
+    for(int j=0; j<strlen(partitionName); j++){
         if(partitionName[j] == '\n'){
             partitionName[j] = '\0';
         }
