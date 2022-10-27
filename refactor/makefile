@@ -18,7 +18,7 @@ CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) -pipe
 LD=gcc
 LDFLAGS=$(PTHREAD) -export-dynamic
 
-OBJS=main.o statuschecker.o partitionselector.o
+OBJS=main.o statuschecker.o partitionselector.o partitioncopy.o
 
 all: $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS) $(LDFLAGS)
@@ -31,6 +31,9 @@ statuschecker.o: statuschecker.c
 
 partitionselector.o: partitionselector.c
 	$(CC) -c $(CCFLAGS) partitionselector.c -o partitionselector.o
+
+partitioncopy.o: partitioncopy.c
+	$(CC) -c $(CCFLAGS) partitioncopy.c -o partitioncopy.o
 
 clean:
 	rm -f *.o $(TARGET)

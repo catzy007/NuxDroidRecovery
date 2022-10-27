@@ -6,5 +6,6 @@
 #include "statuschecker.h"
 
 char *partitionSelector();
+int partitionExtractor();
 
 #endif
