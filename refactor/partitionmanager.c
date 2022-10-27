@@ -1,4 +1,4 @@
-#include "partitionselector.h"
+#include "partitionmanager.h"
 
 char *partitionSelector(){
     FILE *buffer;

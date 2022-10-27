@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "string.h"
 #include "statuschecker.h"
-#include "partitionselector.h"
+#include "partitionmanager.h"
 #include "partitioncopy.h"
 
 int main(int argc, char** argv){
