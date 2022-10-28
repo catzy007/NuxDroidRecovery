@@ -1,32 +1,71 @@
 #include "partitionmanager.h"
 
 void printPartitionList(){
-    system("adb shell su -c 'cat /proc/partitions'");
+    system("adb shell \"cat /proc/partitions\"");
+}
+
+int partitionCopyManual(char *targetPartition){
+    char command1[256] = "\0";
+    char command2[256] = "\0";
+
+    //forward the android tcp to host tcp
+    strcpy(command1, " adb kill-server\n");
+    strcat(command1, " adb forward tcp:8175 tcp:8175\n");
+
+    //run adb shell, dd the selected partition and pipe 
+    //the output to netcat 8175
+    strcat(command1, " adb shell su -c \"\"dd if=/dev/block/");
+    strcat(command1, targetPartition);
+    // strcat(command1, "loop0");
+    strcat(command1, " | nc -l -p 8175\"\"");
+
+    //close android forward and kill netcat
+    // strcat(command1, "&& pgrep -x nc | xargs kill -SIGINT\n");
+    strcat(command1, " adb forward --remove-all");
+
+    //run netcat and save device partition to deviceImage.img
+    strcat(command2, " nc localhost 8175 > deviceImage.img");
+
+    printf("\nOpen new terminal window and enter the command below\n");
+    printf("%s\n", command1);
+    printf("\nThen open another terminal window and enter the command below\n");
+    printf("%s\n\n", command2);
+    printf("If you get 'nc: Address already in use',\n");
+    printf("turn airplane mode on and off after\n");
+    printf("'adb forward tcp:8175 tcp:8175'\n");
+    printf("to perform network reset\n\n");
+    printf("check your working directory\n");
+    printf("if 'deviceImage.img' stop growing\n");
+    printf("it is likely that clone has finished\n\n");
+    printf("Done!\n");
+    return 0;
 }
 
 int partitionCopy(char *targetPartition){
-    char command[512];
+    char command[512] = "\0";
 
     //forward the android tcp to host tcp
-    strcpy(command, "adb forward tcp:8888 tcp:8888 && ");
-
-    //run netcat and save device partition to deviceImage.img
-    strcat(command, "xterm -e 'echo Receiving Data && sleep 5 && ");
-    strcat(command, "nc 127.0.0.1 8888 > deviceImage.img' & ");
+    system("adb forward tcp:8175 tcp:8175");
 
     //run adb shell, dd the selected partition and pipe 
-    //the output to netcat 8888
-    strcat(command, "xterm -e 'echo Sending Data && sleep 5 && ");
-    strcat(command, "adb shell \"su -c dd if=/dev/block/");
-    strcat(command, targetPartition);
-    strcat(command, " | busybox nc -l -p 8888\"' && ");
+    //the output to netcat 8175
+    strcpy(command, "xterm -e 'echo Sending Data && ");
+    strcat(command, "adb shell \"dd if=/dev/block/");
+    // strcat(command, targetPartition);
+    strcat(command, "mmcblk0");
+    strcat(command, " | nc -l -p 8175\"' && ");
 
     //close android forward and kill netcat
-    strcat(command, "adb forward --remove-all && ");
-    strcat(command, "pgrep -x nc | xargs kill -SIGINT");
+    strcat(command, "pgrep -x nc | xargs kill -SIGINT && ");
+    strcat(command, "adb forward --remove-all & ");
 
-    printf("\n%s\n",command);
-    system(command);    
+    //run netcat and save device partition to deviceImage.img
+    strcat(command, "sleep 5 && xterm -e 'echo Receiving Data && ");
+    strcat(command, "nc localhost 8175 > deviceImage.img'");
+
+    // printf("%s\n", command);
+    system(command);
+    printf("Done!\n");
     return 0;
 }
 
@@ -40,6 +79,9 @@ char *partitionSelector(){
     unsigned long int partitionBlocks = 0;
     unsigned long int tempPartitionBlocks = 0;
     char *partitionName = malloc(sizeof(char) * 16+1);
+    for(int j=0; j<(16+1); j++){
+        partitionName[j] = '\0';
+    }
     strcpy(partitionName, "NULL");
 
     if(!isDevicePaired()){
@@ -81,9 +123,9 @@ char *partitionSelector(){
     pclose(buffer);
 
     //clean the partition name from newline character
-    for(int j=0; j<strlen(partitionName); j++){
-        if(partitionName[j] == '\n'){
-            partitionName[j] = '\0';
+    for(int k=0; k<(16+1); k++){
+        if(partitionName[k] == '\n'){
+            partitionName[k] = '\0';
         }
     }
 

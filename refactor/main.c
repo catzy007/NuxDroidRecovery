@@ -9,11 +9,13 @@ int main(int argc, char** argv){
     int menu;
     char ch;
     char *partitionName;
+    char targetPartition[17];
 
     while(true){
         printf("\e[1;1H\e[2J");
         printf("NuxDroidRecovery Menu\n");
         printf(" 1. Connect and check device\n");
+        printf(" 2. Clone the device partition (manual)\n");
         printf(" 5. Exit\n");
 
         scanf("%d", &menu); getc(stdin);
@@ -71,6 +73,16 @@ int main(int argc, char** argv){
                 scanf("%c", &ch);
                 break;
             case 2:
+                // partitionName = partitionSelector();
+                // if(strcmp(partitionName, "NULL") != 0){
+                    printf("\e[1;1H\e[2J");
+                    printf("Enter which partition to clone\n");
+                    printPartitionList();
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopy(targetPartition);
+                    scanf("%c", &ch);
+                // }
+                // free(partitionName);
                 break;
             case 5:
                 goto exit;
