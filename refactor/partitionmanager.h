@@ -5,6 +5,7 @@
 #include <string.h>
 #include "statuschecker.h"
 
+void printPartitionList();
 int partitionCopy(char *targetPartition);
 char *partitionSelector();
 int partitionExtractor();

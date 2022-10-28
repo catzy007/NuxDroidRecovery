@@ -59,3 +59,21 @@ int IsDeviceRooted(){
 	pclose(buffer);
     return status;
 }
+
+int availableBlockDevice(){
+    FILE *buffer;
+    char text[255];
+    int block = 0;
+
+    buffer = popen("adb shell 'su -c ls -l /dev/block'", "r");
+    if(buffer == NULL){
+        return 0;
+    }
+
+    while(fgets(text, sizeof(text), buffer) != NULL){
+        block++;
+    }
+    pclose(buffer);
+
+    return block;
+}

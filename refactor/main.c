@@ -8,6 +8,7 @@
 int main(int argc, char** argv){
     int menu;
     char ch;
+    char *partitionName;
 
     while(true){
         printf("\e[1;1H\e[2J");
@@ -49,6 +50,27 @@ int main(int argc, char** argv){
                 }
                 printf("Root access is granted, press enter to continue.\n");
                 scanf("%c", &ch);
+
+                printf("\e[1;1H\e[2J");
+                printf("C. Reading partition table\n");
+                if(availableBlockDevice() < 4){
+                    printf("Number of block device visible does not seem to be valid!");
+                    scanf("%c", &ch);
+                    break;
+                }
+                printPartitionList();
+                partitionName = partitionSelector();
+                printf("Largest partition is : %s\n", partitionName);
+                printf(" - please unplug any expansion storage\n");
+                printf(" - in your device to ensure accurate reading\n");
+                printf(" - if Largest partition shown above is partition\n");
+                printf(" - you want to recover, please press enter\n");
+                printf(" - then select option 2 in the menu\n");
+                printf("All set, you can continue to the next step\n");
+                free(partitionName);
+                scanf("%c", &ch);
+                break;
+            case 2:
                 break;
             case 5:
                 goto exit;
@@ -58,7 +80,6 @@ int main(int argc, char** argv){
         }
     }
     
-    // printf("%s\n", IsDeviceRooted()?"Root OK":"No root!");
 
     // char *value = partitionSelector();
     // printf("largest partition is %s\n", value);

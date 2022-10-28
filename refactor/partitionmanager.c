@@ -1,5 +1,9 @@
 #include "partitionmanager.h"
 
+void printPartitionList(){
+    system("adb shell su -c 'cat /proc/partitions'");
+}
+
 int partitionCopy(char *targetPartition){
     char command[512];
 
