@@ -16,7 +16,7 @@ int main(int argc, char** argv){
         printf("NuxDroidRecovery Menu\n");
         printf(" 1. Connect and check device ROOT\n");
         printf(" 2. Clone the device partition ROOT (manual)\n");
-        printf(" 5. Exit\n");
+        printf(" 0. Exit\n");
 
         scanf("%d", &menu); getc(stdin);
         switch(menu){
@@ -76,6 +76,7 @@ int main(int argc, char** argv){
                 partitionName = partitionSelector();
                 if(strcmp(partitionName, "NULL") != 0){
                     printf("\e[1;1H\e[2J");
+                    printf("\n");
                     printPartitionList();
                     printf("Enter which partition to clone\n");
                     scanf("%17s", targetPartition); getc(stdin);
@@ -84,7 +85,7 @@ int main(int argc, char** argv){
                 }
                 free(partitionName);
                 break;
-            case 5:
+            case 0:
                 goto exit;
             default:
 				printf("Input Error!\n");

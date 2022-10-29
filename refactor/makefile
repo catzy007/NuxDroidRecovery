@@ -18,7 +18,7 @@ CCFLAGS=$(DEBUG) $(OPT) $(WARN) $(PTHREAD) -pipe
 LD=gcc
 LDFLAGS=$(PTHREAD) -export-dynamic
 
-OBJS=main.o statuschecker.o partitionmgrroot.o
+OBJS=main.o statuschecker.o partitionmgrroot.o partitionmgrtwrp.o
 
 all: $(OBJS)
 	$(LD) -o $(TARGET) $(OBJS) $(LDFLAGS)
@@ -31,6 +31,10 @@ statuschecker.o: statuschecker.c
 
 partitionmgrroot.o: partitionmgrroot.c
 	$(CC) -c $(CCFLAGS) partitionmgrroot.c -o partitionmgrroot.o
+
+partitionmgrtwrp.o: partitionmgrtwrp.c
+	$(CC) -c $(CCFLAGS) partitionmgrtwrp.c -o partitionmgrtwrp.o
+
 
 clean:
 	rm -f *.o $(TARGET)
