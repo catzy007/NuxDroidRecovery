@@ -9,39 +9,32 @@ int partitionCopyManual(char *targetPartition){
     char command2[256] = "\0";
 
     //forward the android tcp to host tcp
-    strcpy(command1, " adb kill-server\n");
-    strcat(command1, " adb forward tcp:8175 tcp:8175\n");
+    strcpy(command1, "  adb forward tcp:8175 tcp:8175\n");
 
     //run adb shell, dd the selected partition and pipe 
     //the output to netcat 8175
-    strcat(command1, " adb shell su -c \"\"dd if=/dev/block/");
+    strcat(command1, "  adb shell su -c \"\"dd if=/dev/block/");
     strcat(command1, targetPartition);
-    // strcat(command1, "loop0");
     strcat(command1, " | nc -l -p 8175\"\"");
 
-    //close android forward and kill netcat
-    // strcat(command1, "&& pgrep -x nc | xargs kill -SIGINT\n");
-    strcat(command1, " adb forward --remove-all");
-
     //run netcat and save device partition to deviceImage.img
-    strcat(command2, " nc localhost 8175 > deviceImage.img");
+    strcat(command2, "  nc localhost 8175 > deviceImage.img");
 
     printf("\nOpen new terminal window and enter the command below\n");
-    printf("%s\n", command1);
+    printf("%s\n\n", command1);
+    printf("If you get 'nc: Address already in use', turn airplane mode\n");
+    printf("on or off. Then repeat 'adb shell su' command\n");
     printf("\nThen open another terminal window and enter the command below\n");
     printf("%s\n\n", command2);
-    printf("If you get 'nc: Address already in use',\n");
-    printf("turn airplane mode on and off after\n");
-    printf("'adb forward tcp:8175 tcp:8175'\n");
-    printf("to perform network reset\n\n");
-    printf("check your working directory\n");
-    printf("if 'deviceImage.img' stop growing\n");
-    printf("it is likely that clone has finished\n\n");
+
+    printf("Check your working directory\n");
+    printf("if 'deviceImage.img' file stop increase in size\n");
+    printf("it is likely that clone process is complete\n\n");
     printf("Done!\n");
     return 0;
 }
 
-int partitionCopy(char *targetPartition){
+int partitionCopyTwrpDd(char *targetPartition){
     char command[512] = "\0";
 
     //forward the android tcp to host tcp

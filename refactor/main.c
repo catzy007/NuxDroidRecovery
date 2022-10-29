@@ -73,16 +73,16 @@ int main(int argc, char** argv){
                 scanf("%c", &ch);
                 break;
             case 2:
-                // partitionName = partitionSelector();
-                // if(strcmp(partitionName, "NULL") != 0){
+                partitionName = partitionSelector();
+                if(strcmp(partitionName, "NULL") != 0){
                     printf("\e[1;1H\e[2J");
-                    printf("Enter which partition to clone\n");
                     printPartitionList();
+                    printf("Enter which partition to clone\n");
                     scanf("%17s", targetPartition); getc(stdin);
-                    partitionCopy(targetPartition);
+                    partitionCopyManual(targetPartition);
                     scanf("%c", &ch);
-                // }
-                // free(partitionName);
+                }
+                free(partitionName);
                 break;
             case 5:
                 goto exit;

@@ -7,7 +7,7 @@
 
 void printPartitionList();
 int partitionCopyManual(char *targetPartition);
-int partitionCopy(char *targetPartition);
+int partitionCopyTwrpDd(char *targetPartition);
 char *partitionSelector();
 int partitionExtractor();
 
