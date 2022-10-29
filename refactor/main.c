@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "string.h"
 #include "statuschecker.h"
-#include "partitionmanager.h"
+#include "partitionmgrroot.h"
 
 int main(int argc, char** argv){
     int menu;
@@ -14,8 +14,8 @@ int main(int argc, char** argv){
     while(true){
         printf("\e[1;1H\e[2J");
         printf("NuxDroidRecovery Menu\n");
-        printf(" 1. Connect and check device\n");
-        printf(" 2. Clone the device partition (manual)\n");
+        printf(" 1. Connect and check device ROOT\n");
+        printf(" 2. Clone the device partition ROOT (manual)\n");
         printf(" 5. Exit\n");
 
         scanf("%d", &menu); getc(stdin);
