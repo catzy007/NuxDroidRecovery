@@ -108,7 +108,7 @@ int partitionExtractor(){
     unsigned long int tempLargestSector = 0;
 
     //sfdisk -q -l -uS *.img 
-    buffer = popen("sfdisk -q -l -uS *.img", "r");
+    buffer = popen("sfdisk -q -l -uS deviceImage.img", "r");
     // buffer = popen("sfdisk -q -l -uS", "r");
     if(buffer == NULL){
         return -1;
@@ -137,6 +137,7 @@ int partitionExtractor(){
     }
     pclose(buffer);
 
+    printf("Extracting the largest partition.\n");
     printf("start %s, end %s, sector %ld\n", startSector, endSector, largestSector);
     if(largestSector == 0){
         return 0;
@@ -147,7 +148,8 @@ int partitionExtractor(){
 	strcat(command, " count=");
 	strcat(command, endSector);
     printf("%s\n", command);
-    // system(command);
+    system(command);
+    printf("Done!, press enter to continue!\n");
 
     return 1;
 }

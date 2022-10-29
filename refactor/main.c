@@ -20,6 +20,7 @@ int main(int argc, char** argv){
         printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
         printf(" 5. Clone the device partition (ROOT) (manual)\n");
+        printf(" 6. Partition Extractor\n");
         printf(" 0. Exit\n");
 
         scanf("%d", &menu); getc(stdin);
@@ -173,6 +174,11 @@ int main(int argc, char** argv){
                     scanf("%c", &ch);
                 }
                 free(partitionName);
+                break;
+            case 6:
+                printf("\e[1;1H\e[2J");
+                partitionExtractor();
+                scanf("%c", &ch);
                 break;
             case 0:
                 goto exit;
