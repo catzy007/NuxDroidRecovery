@@ -28,6 +28,7 @@ int isDevicePaired(){
         }
 	}
 	pclose(buffer);
+
     return status;
 }
 
@@ -57,5 +58,52 @@ int IsDeviceRooted(){
         }
 	}
 	pclose(buffer);
+
     return status;
+}
+
+// printf("%s\n", isBusyboxInstalled()?"BusyBox OK":"No BusyBox!");
+int isBusyboxInstalled(){
+    const char checkstring[] = "function";
+    FILE *buffer;
+    char text[255];
+    int status = 0;
+    char *token;
+
+    //adb shell 'su -c busybox'
+    buffer = popen("adb shell 'su -c busybox'", "r");
+    if(buffer == NULL){
+        return 0;
+    }
+
+    while(fgets(text, sizeof(text), buffer) != NULL){
+        token = strtok(text, " ");
+        while(token != NULL) {
+            if(strstr(token, checkstring) != NULL){
+                status = 1;
+            }
+            token = strtok(NULL, " ");
+        }
+    }
+    pclose(buffer);
+
+    return status;
+}
+
+int availableBlockDevice(){
+    FILE *buffer;
+    char text[255];
+    int block = 0;
+
+    buffer = popen("adb shell 'su -c ls -l /dev/block'", "r");
+    if(buffer == NULL){
+        return 0;
+    }
+
+    while(fgets(text, sizeof(text), buffer) != NULL){
+        block++;
+    }
+    pclose(buffer);
+
+    return block;
 }
