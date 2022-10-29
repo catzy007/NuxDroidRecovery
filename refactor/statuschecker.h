@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int isDevicePaired();
+int isDevicePaired(char *adbmode);
 int IsDeviceRooted();
 int isBusyboxInstalled();
-int availableBlockDevice();
+int availableBlockDevice(int mode);
 
 #endif

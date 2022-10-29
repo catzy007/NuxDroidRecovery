@@ -35,7 +35,7 @@ int partitionCopyManual(char *targetPartition){
     return 0;
 }
 
-char *partitionSelector(){
+char *partitionSelector(char *adbmode){
     FILE *buffer;
     char *ptr;
     char *token;
@@ -50,15 +50,11 @@ char *partitionSelector(){
     }
     strcpy(partitionName, "NULL");
 
-    if(!isDevicePaired()){
-        printf("The device is not paired!");
+    if(!isDevicePaired(adbmode)){
+        printf("The device is not paired!\n");
         return partitionName;
     }
 
-    // system("rm *.img >/dev/null");
-
-    //adb shell 'cat /proc/partitions' | awk '{print $4}' 
-    // buffer = popen("sh -c 'cat /proc/partitions'", "r");
     buffer = popen("adb shell 'cat /proc/partitions'", "r");
     if(buffer == NULL){
         return partitionName;
