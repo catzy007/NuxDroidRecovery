@@ -9,7 +9,7 @@ int partitionCopyTwrpRawDd(char *targetPartition){
 
     // printf("%s\n", command);
     system(command);
-    printf("Done!\n");
+    printf("Done! Press enter to continue\n");
     return 0;
 }
 
@@ -37,6 +37,6 @@ int partitionCopyTwrpNetcat(char *targetPartition){
 
     // printf("%s\n", command);
     system(command);
-    printf("Done!\n");
+    printf("Done! Press enter to continue\n");
     return 0;
 }

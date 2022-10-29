@@ -31,7 +31,7 @@ int partitionCopyManual(char *targetPartition){
     printf("Check your working directory\n");
     printf("if 'deviceImage.img' file stop increase in size\n");
     printf("it is likely that clone process is complete\n\n");
-    printf("Done!\n");
+    printf("Done! Press enter to continue\n");
     return 0;
 }
 
