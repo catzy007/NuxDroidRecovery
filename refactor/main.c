@@ -4,6 +4,7 @@
 #include "string.h"
 #include "statuschecker.h"
 #include "partitionmgrroot.h"
+#include "partitionmgrtwrp.h"
 
 int main(int argc, char** argv){
     int menu;
@@ -14,13 +15,87 @@ int main(int argc, char** argv){
     while(true){
         printf("\e[1;1H\e[2J");
         printf("NuxDroidRecovery Menu\n");
-        printf(" 1. Connect and check device ROOT\n");
-        printf(" 2. Clone the device partition ROOT (manual)\n");
+        printf(" 1. Connect and check device (TWRP)\n");
+        printf(" 2. Clone the device partition (MODE1) (TWRP)\n");
+        printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
+        printf(" 4. Connect and check device (ROOT)\n");
+        printf(" 5. Clone the device partition (ROOT) (manual)\n");
+        printf(" 6. Partition Extractor\n");
         printf(" 0. Exit\n");
 
         scanf("%d", &menu); getc(stdin);
         switch(menu){
             case 1:
+            //check TWRP ADB
+                printf("\e[1;1H\e[2J");
+                printf("A. Check ADB via TWRP custom recovery\n");
+                printf(" - Please boot into TWRP custom recovery\n");
+                printf(" - this mode require TWRP installed on your device\n");
+                printf(" - WARNING! installing TWRP is going to void your device\n");
+                printf(" - warranty. Failure while installing TWRP may render your\n");
+                printf(" - device bricked or unusable.\n");
+                printf("\n");
+                if(!isDevicePaired("recovery")){
+                    printf("Rebooting device to recovery\n");
+                    system("adb reboot recovery");
+                    printf("press enter after device is ready\n");
+                    scanf("%c", &ch);
+                    if(!isDevicePaired("recovery")){
+                        printf("Could not boot into recovery, please install TWRP\n");
+                        scanf("%c", &ch);
+                        break;
+                    }
+                }
+                printf("ADB TWRP is enabled, press enter to continue.\n");
+                scanf("%c", &ch);
+            //check partition
+                printf("\e[1;1H\e[2J");
+                printf("D. Reading partition table\n");
+                if(availableBlockDevice(1) < 4){
+                    printf("\n");
+                    printf("Number of block device visible does not seem to be valid!");
+                    scanf("%c", &ch);
+                    break;
+                }
+                printPartitionList();
+                partitionName = partitionSelector("recovery");
+                printf("Largest partition is : %s\n", partitionName);
+                printf(" - please unplug any expansion storage\n");
+                printf(" - in your device to ensure accurate reading.\n");
+                printf("\n");
+                printf("All set, you can continue to the next step\n");
+                free(partitionName);
+                scanf("%c", &ch);
+                break;
+            case 2:
+                partitionName = partitionSelector("recovery");
+                if(strcmp(partitionName, "NULL") != 0){
+                    printf("\e[1;1H\e[2J");
+                    printf("\n");
+                    printPartitionList();
+                    printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using TWRP MODE1\n");
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopyTwrpRawDd(targetPartition);
+                    scanf("%c", &ch);
+                }
+                free(partitionName);
+                break;
+            case 3:
+                partitionName = partitionSelector("recovery");
+                if(strcmp(partitionName, "NULL") != 0){
+                    printf("\e[1;1H\e[2J");
+                    printf("\n");
+                    printPartitionList();
+                    printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using TWRP MODE2\n");
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopyTwrpNetcat(targetPartition);
+                    scanf("%c", &ch);
+                }
+                free(partitionName);
+                break;
+            case 4:
             //check ABB
                 printf("\e[1;1H\e[2J");
                 printf("A. Check ADB USB Debugging\n");
@@ -29,7 +104,7 @@ int main(int argc, char** argv){
                 printf(" - Then plug your device, press the checkbox\n");
                 printf(" - and press 'OK' to 'Allow USB debugging' pop-up.\n");
                 printf("\n");
-                if(!isDevicePaired()){
+                if(!isDevicePaired("device")){
                     printf("Please enable USB Debugging and try again!\n");
                     scanf("%c", &ch);
                     break;
@@ -70,37 +145,40 @@ int main(int argc, char** argv){
             //check Partition
                 printf("\e[1;1H\e[2J");
                 printf("D. Reading partition table\n");
-                if(availableBlockDevice() < 4){
+                if(availableBlockDevice(0) < 4){
                     printf("\n");
                     printf("Number of block device visible does not seem to be valid!");
                     scanf("%c", &ch);
                     break;
                 }
                 printPartitionList();
-                partitionName = partitionSelector();
+                partitionName = partitionSelector("device");
                 printf("Largest partition is : %s\n", partitionName);
                 printf(" - please unplug any expansion storage\n");
-                printf(" - in your device to ensure accurate reading\n");
-                printf(" - if Largest partition shown above is partition\n");
-                printf(" - you want to recover, please press enter\n");
-                printf(" - then select option 2 in the menu\n");
+                printf(" - in your device to ensure accurate reading.\n");
                 printf("\n");
                 printf("All set, you can continue to the next step\n");
                 free(partitionName);
                 scanf("%c", &ch);
                 break;
-            case 2:
-                partitionName = partitionSelector();
+            case 5:
+                partitionName = partitionSelector("device");
                 if(strcmp(partitionName, "NULL") != 0){
                     printf("\e[1;1H\e[2J");
                     printf("\n");
                     printPartitionList();
-                    printf("Enter which partition to clone\n");
+                    printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using Root Manual\n");
                     scanf("%17s", targetPartition); getc(stdin);
                     partitionCopyManual(targetPartition);
                     scanf("%c", &ch);
                 }
                 free(partitionName);
+                break;
+            case 6:
+                printf("\e[1;1H\e[2J");
+                partitionExtractor();
+                scanf("%c", &ch);
                 break;
             case 0:
                 goto exit;
@@ -109,18 +187,6 @@ int main(int argc, char** argv){
 				break;
         }
     }
-    
-
-    // char *value = partitionSelector();
-    // printf("largest partition is %s\n", value);
-    
-    // if(strcmp(value, "NULL") != 0){
-    //     partitionCopy(value);
-    // }
-
-    // partitionExtractor();
-
-    // free(value);
     exit:
     return 0;
 }

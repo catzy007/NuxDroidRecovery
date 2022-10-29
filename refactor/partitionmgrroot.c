@@ -31,11 +31,11 @@ int partitionCopyManual(char *targetPartition){
     printf("Check your working directory\n");
     printf("if 'deviceImage.img' file stop increase in size\n");
     printf("it is likely that clone process is complete\n\n");
-    printf("Done!\n");
+    printf("Done! Press enter to continue\n");
     return 0;
 }
 
-char *partitionSelector(){
+char *partitionSelector(char *adbmode){
     FILE *buffer;
     char *ptr;
     char *token;
@@ -50,15 +50,11 @@ char *partitionSelector(){
     }
     strcpy(partitionName, "NULL");
 
-    if(!isDevicePaired()){
-        printf("The device is not paired!");
+    if(!isDevicePaired(adbmode)){
+        printf("The device is not paired!\n");
         return partitionName;
     }
 
-    // system("rm *.img >/dev/null");
-
-    //adb shell 'cat /proc/partitions' | awk '{print $4}' 
-    // buffer = popen("sh -c 'cat /proc/partitions'", "r");
     buffer = popen("adb shell 'cat /proc/partitions'", "r");
     if(buffer == NULL){
         return partitionName;
@@ -112,7 +108,7 @@ int partitionExtractor(){
     unsigned long int tempLargestSector = 0;
 
     //sfdisk -q -l -uS *.img 
-    buffer = popen("sfdisk -q -l -uS *.img", "r");
+    buffer = popen("sfdisk -q -l -uS deviceImage.img", "r");
     // buffer = popen("sfdisk -q -l -uS", "r");
     if(buffer == NULL){
         return -1;
@@ -141,6 +137,7 @@ int partitionExtractor(){
     }
     pclose(buffer);
 
+    printf("Extracting the largest partition.\n");
     printf("start %s, end %s, sector %ld\n", startSector, endSector, largestSector);
     if(largestSector == 0){
         return 0;
@@ -151,7 +148,8 @@ int partitionExtractor(){
 	strcat(command, " count=");
 	strcat(command, endSector);
     printf("%s\n", command);
-    // system(command);
+    system(command);
+    printf("Done!, press enter to continue!\n");
 
     return 1;
 }

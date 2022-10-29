@@ -7,7 +7,7 @@
 
 void printPartitionList();
 int partitionCopyManual(char *targetPartition);
-char *partitionSelector();
+char *partitionSelector(char *adbmode);
 int partitionExtractor();
 
 #endif

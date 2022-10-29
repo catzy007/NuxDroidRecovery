@@ -1,6 +1,19 @@
 #include "partitionmgrtwrp.h"
 
-int partitionCopyTwrpDd(char *targetPartition){
+int partitionCopyTwrpRawDd(char *targetPartition){
+    char command[64] = "\0";
+
+    strcpy(command, "adb shell 'stty raw && dd if=/dev/block/");
+    strcat(command, targetPartition);
+    strcat(command, "' > deviceImage.img");
+
+    // printf("%s\n", command);
+    system(command);
+    printf("Done! Press enter to continue\n");
+    return 0;
+}
+
+int partitionCopyTwrpNetcat(char *targetPartition){
     char command[512] = "\0";
 
     //forward the android tcp to host tcp
@@ -10,8 +23,8 @@ int partitionCopyTwrpDd(char *targetPartition){
     //the output to netcat 8175
     strcpy(command, "xterm -e 'echo Sending Data && ");
     strcat(command, "adb shell \"dd if=/dev/block/");
-    // strcat(command, targetPartition);
-    strcat(command, "mmcblk0");
+    strcat(command, targetPartition);
+    // strcat(command, "mmcblk0");
     strcat(command, " | nc -l -p 8175\"' && ");
 
     //close android forward and kill netcat
@@ -24,6 +37,6 @@ int partitionCopyTwrpDd(char *targetPartition){
 
     // printf("%s\n", command);
     system(command);
-    printf("Done!\n");
+    printf("Done! Press enter to continue\n");
     return 0;
 }

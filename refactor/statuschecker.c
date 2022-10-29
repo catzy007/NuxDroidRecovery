@@ -1,9 +1,9 @@
 #include "statuschecker.h"
 
-// printf("%s\n", isDevicePaired()?"Connected":"Disconnected!");
-int isDevicePaired(){
+// printf("%s\n", isDevicePaired("device")?"Connected":"Disconnected!");
+int isDevicePaired(char *adbmode){
     const char checkstring1[] = "List";
-    const char checkstring2[] = "device";
+    // const char checkstring2[] = "device";
     FILE *buffer;
     char text[255];
     int status = 0;
@@ -20,7 +20,7 @@ int isDevicePaired(){
         while(token != NULL) {
             // printf("%s\n", token);
             if(strstr(token, checkstring1) == NULL && 
-                strstr(token, checkstring2) != NULL){
+                strstr(token, adbmode) != NULL){
                 // printf("Found : %s\n", token);
                 status = 1;
             }
@@ -90,12 +90,18 @@ int isBusyboxInstalled(){
     return status;
 }
 
-int availableBlockDevice(){
+//mode 1=twrp, 0=root
+int availableBlockDevice(int mode){
     FILE *buffer;
     char text[255];
     int block = 0;
 
-    buffer = popen("adb shell 'su -c ls -l /dev/block'", "r");
+    if(mode == 0){
+        buffer = popen("adb shell 'su -c ls -l /dev/block'", "r");
+    }else{
+        buffer = popen("adb shell 'ls -l /dev/block'", "r");
+    }
+
     if(buffer == NULL){
         return 0;
     }
