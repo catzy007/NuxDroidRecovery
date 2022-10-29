@@ -4,6 +4,7 @@
 #include "string.h"
 #include "statuschecker.h"
 #include "partitionmgrroot.h"
+#include "partitionmgrtwrp.h"
 
 int main(int argc, char** argv){
     int menu;
@@ -15,6 +16,8 @@ int main(int argc, char** argv){
         printf("\e[1;1H\e[2J");
         printf("NuxDroidRecovery Menu\n");
         printf(" 1. Connect and check device (TWRP)\n");
+        printf(" 2. Clone the device partition (MODE1) (TWRP)\n");
+        printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
         printf(" 5. Clone the device partition (ROOT) (manual)\n");
         printf(" 0. Exit\n");
@@ -62,6 +65,34 @@ int main(int argc, char** argv){
                 printf("All set, you can continue to the next step\n");
                 free(partitionName);
                 scanf("%c", &ch);
+                break;
+            case 2:
+                partitionName = partitionSelector("recovery");
+                if(strcmp(partitionName, "NULL") != 0){
+                    printf("\e[1;1H\e[2J");
+                    printf("\n");
+                    printPartitionList();
+                    printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using TWRP MODE1\n");
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopyTwrpRawDd(targetPartition);
+                    scanf("%c", &ch);
+                }
+                free(partitionName);
+                break;
+            case 3:
+                partitionName = partitionSelector("recovery");
+                if(strcmp(partitionName, "NULL") != 0){
+                    printf("\e[1;1H\e[2J");
+                    printf("\n");
+                    printPartitionList();
+                    printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using TWRP MODE2\n");
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopyTwrpNetcat(targetPartition);
+                    scanf("%c", &ch);
+                }
+                free(partitionName);
                 break;
             case 4:
             //check ABB
@@ -136,7 +167,7 @@ int main(int argc, char** argv){
                     printf("\n");
                     printPartitionList();
                     printf("Largest partition is : %s\n", partitionName);
-                    printf("Enter which partition to clone\n");
+                    printf("Enter which partition to clone using Root Manual\n");
                     scanf("%17s", targetPartition); getc(stdin);
                     partitionCopyManual(targetPartition);
                     scanf("%c", &ch);
