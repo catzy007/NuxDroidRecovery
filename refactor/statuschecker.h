@@ -6,6 +6,7 @@
 
 int isDevicePaired();
 int IsDeviceRooted();
+int isBusyboxInstalled();
 int availableBlockDevice();
 
 #endif
