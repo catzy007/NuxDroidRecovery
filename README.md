@@ -3,7 +3,7 @@ Android data recovery for Linux based system.
 
 Device with TWRP installed, or root access is required. 
 
-For use as a reference material, educational purpose, or you absolutely know what you're doing. 
+For use as a reference material or educational purpose only. 
 Otherwise, contact a professional data recovery solution instead.
 
 #### Dependency
