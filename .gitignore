@@ -1,5 +1,4 @@
 *.img
+*.dd
 *.o
-info.cfg
-AndroReco
-nckiller
+NuxDroidRecovery
