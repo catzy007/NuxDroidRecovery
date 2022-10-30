@@ -21,8 +21,8 @@ int main(int argc, char** argv){
         printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
         printf(" 5. Clone the device partition (ROOT) (manual)\n");
-        printf(" 6. Extract specific partition from disk image\n");
-        printf(" 7. Perform data recovery\n");
+        printf(" 6. Extract userdata from disk image\n");
+        printf(" 7. Perform data recovery from userdata\n");
         printf(" 0. Exit\n");
 
         printf("Your Choice : ");
@@ -54,7 +54,7 @@ int main(int argc, char** argv){
                 scanf("%c", &ch);
             //check partition
                 printf("\e[1;1H\e[2J");
-                printf("D. Reading partition table\n");
+                printf("B. Reading partition table\n");
                 if(availableBlockDevice(1) < 4){
                     printf("\n");
                     printf("Number of block device visible does not seem to be valid!");
@@ -203,7 +203,7 @@ int main(int argc, char** argv){
                 free(partitionName);
                 break;
             case 6:
-                printf("\e[1;1H\e[2J");
+                printf("\e[1;1H\e[2J"); printf("\n");
                 partitionExtractor();
                 scanf("%c", &ch);
                 break;

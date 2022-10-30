@@ -96,6 +96,7 @@ char *partitionSelector(char *adbmode){
 
 int partitionExtractor(){
     FILE *buffer;
+    char choice;
     char text[255];
     char command[255];
     char *token, *ptr;
@@ -107,9 +108,7 @@ int partitionExtractor(){
     unsigned long int largestSector = 0;
     unsigned long int tempLargestSector = 0;
 
-    //sfdisk -q -l -uS *.img 
     buffer = popen("sfdisk -q -l -uS deviceImage.img", "r");
-    // buffer = popen("sfdisk -q -l -uS", "r");
     if(buffer == NULL){
         return -1;
     }
@@ -137,13 +136,23 @@ int partitionExtractor(){
     }
     pclose(buffer);
 
-    printf("Extracting the largest partition.\n");
-    printf("start %s, end %s, sector %ld\n", startSector, endSector, largestSector);
     if(largestSector == 0){
         return 0;
     }
 
-    strcpy(command, "dd if=deviceImage.img of=deviceImage.dd skip=");
+    system("sfdisk -q -l -uS deviceImage.img");
+    printf("Largest partition is sector %ld, start %s, end %s.\n", largestSector, startSector, endSector);
+    printf("Do you want to extract this partition or specify your own (Y/N)? ");
+    scanf("%c", &choice); getc(stdin);
+
+    if(choice == 'n' || choice == 'N'){
+        printf("\nSpecify Start sector : ");
+        scanf("%s", startSector); getc(stdin);
+        printf("Specify End sector : ");
+        scanf("%s", endSector); getc(stdin);
+    }
+
+    strcpy(command, "\ndd if=deviceImage.img of=deviceImage.dd skip=");
     strcat(command, startSector);
 	strcat(command, " count=");
 	strcat(command, endSector);
