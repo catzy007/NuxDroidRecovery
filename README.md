@@ -11,6 +11,9 @@ Otherwise, contact a professional data recovery solution instead.
 sudo apt install build-essential make adb xterm foremost
 ```
 
+#### Device Dependency
+A working install of `TWRP custom recovery` or device with `root/superuser` access (SuperSU/Magisk) and `busybox` installed.
+
 #### How-To
 * Git clone this repository.
 * Install the required dependency and run `make`.
