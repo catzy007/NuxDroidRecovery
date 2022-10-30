@@ -1,5 +1,6 @@
 *.img
 *.o
+NuxDroidRecovery
 info.cfg
 AndroReco
 nckiller

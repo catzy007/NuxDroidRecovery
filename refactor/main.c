@@ -5,6 +5,7 @@
 #include "statuschecker.h"
 #include "partitionmgrroot.h"
 #include "partitionmgrtwrp.h"
+#include "recoverdata.h"
 
 int main(int argc, char** argv){
     int menu;
@@ -20,9 +21,11 @@ int main(int argc, char** argv){
         printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
         printf(" 5. Clone the device partition (ROOT) (manual)\n");
-        printf(" 6. Partition Extractor\n");
+        printf(" 6. Extract specific partition from disk image\n");
+        printf(" 7. Perform data recovery\n");
         printf(" 0. Exit\n");
 
+        printf("Your Choice : ");
         scanf("%d", &menu); getc(stdin);
         switch(menu){
             case 1:
@@ -42,6 +45,7 @@ int main(int argc, char** argv){
                     scanf("%c", &ch);
                     if(!isDevicePaired("recovery")){
                         printf("Could not boot into recovery, please install TWRP\n");
+                        printf("Press enter to continue");
                         scanf("%c", &ch);
                         break;
                     }
@@ -54,6 +58,7 @@ int main(int argc, char** argv){
                 if(availableBlockDevice(1) < 4){
                     printf("\n");
                     printf("Number of block device visible does not seem to be valid!");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                     break;
                 }
@@ -69,28 +74,40 @@ int main(int argc, char** argv){
                 break;
             case 2:
                 partitionName = partitionSelector("recovery");
+                printf("\e[1;1H\e[2J");
                 if(strcmp(partitionName, "NULL") != 0){
-                    printf("\e[1;1H\e[2J");
                     printf("\n");
                     printPartitionList();
                     printf("Largest partition is : %s\n", partitionName);
                     printf("Enter which partition to clone using TWRP MODE1\n");
+                    printf("Your Choice : ");
                     scanf("%17s", targetPartition); getc(stdin);
                     partitionCopyTwrpRawDd(targetPartition);
+                    scanf("%c", &ch);
+                }else{
+                    printf("\n");
+                    printf("Could not read partition table, connect and check device!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                 }
                 free(partitionName);
                 break;
             case 3:
                 partitionName = partitionSelector("recovery");
+                printf("\e[1;1H\e[2J");
                 if(strcmp(partitionName, "NULL") != 0){
-                    printf("\e[1;1H\e[2J");
                     printf("\n");
                     printPartitionList();
                     printf("Largest partition is : %s\n", partitionName);
                     printf("Enter which partition to clone using TWRP MODE2\n");
+                    printf("Your Choice : ");
                     scanf("%17s", targetPartition); getc(stdin);
                     partitionCopyTwrpNetcat(targetPartition);
+                    scanf("%c", &ch);
+                }else{
+                    printf("\n");
+                    printf("Could not read partition table, connect and check device!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                 }
                 free(partitionName);
@@ -106,6 +123,7 @@ int main(int argc, char** argv){
                 printf("\n");
                 if(!isDevicePaired("device")){
                     printf("Please enable USB Debugging and try again!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                     break;
                 }
@@ -123,6 +141,7 @@ int main(int argc, char** argv){
                 printf("\n");
                 if(!IsDeviceRooted()){
                     printf("Please enable root access and try again!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                     break;
                 }
@@ -137,6 +156,7 @@ int main(int argc, char** argv){
                 printf("\n");
                 if(!isBusyboxInstalled()){
                     printf("Please install BusyBox and try again!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                     break;
                 }
@@ -147,7 +167,8 @@ int main(int argc, char** argv){
                 printf("D. Reading partition table\n");
                 if(availableBlockDevice(0) < 4){
                     printf("\n");
-                    printf("Number of block device visible does not seem to be valid!");
+                    printf("Number of block device visible does not seem to be valid!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                     break;
                 }
@@ -163,14 +184,20 @@ int main(int argc, char** argv){
                 break;
             case 5:
                 partitionName = partitionSelector("device");
+                printf("\e[1;1H\e[2J");
                 if(strcmp(partitionName, "NULL") != 0){
-                    printf("\e[1;1H\e[2J");
                     printf("\n");
                     printPartitionList();
                     printf("Largest partition is : %s\n", partitionName);
                     printf("Enter which partition to clone using Root Manual\n");
+                    printf("Your Choice : ");
                     scanf("%17s", targetPartition); getc(stdin);
                     partitionCopyManual(targetPartition);
+                    scanf("%c", &ch);
+                }else{
+                    printf("\n");
+                    printf("Could not read partition table, connect and check device!\n");
+                    printf("Press enter to continue");
                     scanf("%c", &ch);
                 }
                 free(partitionName);
@@ -178,6 +205,11 @@ int main(int argc, char** argv){
             case 6:
                 printf("\e[1;1H\e[2J");
                 partitionExtractor();
+                scanf("%c", &ch);
+                break;
+            case 7:
+                printf("\e[1;1H\e[2J"); printf("\n");
+                recoverData();
                 scanf("%c", &ch);
                 break;
             case 0:
