@@ -1,4 +1,4 @@
-#include "partitionmgrtwrp.h"
+#include "partitioncopytwrp.h"
 
 int partitionCopyTwrpRawDd(char *targetPartition){
     char command[64] = "\0";

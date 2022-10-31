@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include "string.h"
 #include "statuschecker.h"
-#include "partitionmgrroot.h"
-#include "partitionmgrtwrp.h"
+#include "partitionmanager.h"
+#include "partitioncopyroot.h"
+#include "partitioncopytwrp.h"
 #include "recoverdata.h"
 
 int main(int argc, char** argv){
