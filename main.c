@@ -20,9 +20,11 @@ int main(int argc, char** argv){
         printf(" 2. Clone the device partition (MODE1) (TWRP)\n");
         printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
+
         printf(" 5. Clone the device partition (ROOT) (manual)\n");
         printf(" 6. Extract userdata from disk image\n");
         printf(" 7. Perform data recovery from userdata\n");
+        printf(" 8. Perform data recovery from raw disk image\n");
         printf(" 0. Exit\n");
 
         printf("Your Choice : ");
@@ -189,6 +191,26 @@ int main(int argc, char** argv){
                     printf("\n");
                     printPartitionList();
                     printf("Largest partition is : %s\n", partitionName);
+                    printf("Enter which partition to clone using Root Auto\n");
+                    printf("Your Choice : ");
+                    scanf("%17s", targetPartition); getc(stdin);
+                    partitionCopyAuto(targetPartition);
+                    scanf("%c", &ch);
+                }else{
+                    printf("\n");
+                    printf("Could not read partition table, connect and check device!\n");
+                    printf("Press enter to continue");
+                    scanf("%c", &ch);
+                }
+                free(partitionName);
+                break;
+            case 6:
+                partitionName = partitionSelector("device");
+                printf("\e[1;1H\e[2J");
+                if(strcmp(partitionName, "NULL") != 0){
+                    printf("\n");
+                    printPartitionList();
+                    printf("Largest partition is : %s\n", partitionName);
                     printf("Enter which partition to clone using Root Manual\n");
                     printf("Your Choice : ");
                     scanf("%17s", targetPartition); getc(stdin);
@@ -202,14 +224,19 @@ int main(int argc, char** argv){
                 }
                 free(partitionName);
                 break;
-            case 6:
+            case 7:
                 printf("\e[1;1H\e[2J"); printf("\n");
                 partitionExtractor();
                 scanf("%c", &ch);
                 break;
-            case 7:
+            case 8:
                 printf("\e[1;1H\e[2J"); printf("\n");
-                recoverData();
+                recoverData(0);
+                scanf("%c", &ch);
+                break;
+            case 9:
+                printf("\e[1;1H\e[2J"); printf("\n");
+                recoverData(1);
                 scanf("%c", &ch);
                 break;
             case 0:

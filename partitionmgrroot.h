@@ -6,6 +6,7 @@
 #include "statuschecker.h"
 
 void printPartitionList();
+int partitionCopyAuto(char *targetPartition);
 int partitionCopyManual(char *targetPartition);
 char *partitionSelector(char *adbmode);
 int partitionExtractor();

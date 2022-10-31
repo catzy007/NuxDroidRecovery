@@ -24,7 +24,6 @@ int partitionCopyTwrpNetcat(char *targetPartition){
     strcpy(command, "xterm -e 'echo Sending Data && ");
     strcat(command, "adb shell \"dd if=/dev/block/");
     strcat(command, targetPartition);
-    // strcat(command, "mmcblk0");
     strcat(command, " | nc -l -p 8175\"' && ");
 
     //close android forward and kill netcat
