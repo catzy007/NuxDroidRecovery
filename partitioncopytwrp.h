@@ -1,5 +1,5 @@
-#ifndef PARTITIONMGRTWRP_H_INCLUDED
-#define PARTITIONMGRTWRP_H_INCLUDED
+#ifndef PARTITIONCOPYTWRP_H_INCLUDED
+#define PARTITIONCOPYTWRP_H_INCLUDED
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
