@@ -20,11 +20,11 @@ int main(int argc, char** argv){
         printf(" 2. Clone the device partition (MODE1) (TWRP)\n");
         printf(" 3. Clone the device partition (MODE2) (TWRP)\n");
         printf(" 4. Connect and check device (ROOT)\n");
-
-        printf(" 5. Clone the device partition (ROOT) (manual)\n");
-        printf(" 6. Extract userdata from disk image\n");
-        printf(" 7. Perform data recovery from userdata\n");
-        printf(" 8. Perform data recovery from raw disk image\n");
+        printf(" 5. Clone the device partition (ROOT) (auto)\n");
+        printf(" 6. Clone the device partition (ROOT) (manual)\n");
+        printf(" 7. Extract userdata from disk image\n");
+        printf(" 8. Perform data recovery from userdata\n");
+        printf(" 9. Perform data recovery from raw disk image\n");
         printf(" 0. Exit\n");
 
         printf("Your Choice : ");
